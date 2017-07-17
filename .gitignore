@@ -1,0 +1,7 @@
+obj
+bin
+packages
+*.suo
+*.user
+*.csproj
+**/Debug/

@@ -31,171 +31,294 @@ namespace SampleGUI
 
         private void InitializeComponent()
         {
-            this.getData = new System.Windows.Forms.Button();
-            this.tickerValue = new System.Windows.Forms.TextBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tickerLabel = new System.Windows.Forms.Label();
-
-
-            this.lastValue = new System.Windows.Forms.TextBox();
+            this.topLine = new System.Windows.Forms.Label();
+            this.bottomLine = new System.Windows.Forms.Label();
+            this.tickerValue = new System.Windows.Forms.TextBox();
+            this.getData = new System.Windows.Forms.Button();
+            this.closeValue = new System.Windows.Forms.TextBox();
             this.lastLabel = new System.Windows.Forms.Label();
+            this.openValue = new System.Windows.Forms.TextBox();
+            this.lastValue = new System.Windows.Forms.TextBox();
+            this.askValue = new System.Windows.Forms.TextBox();
+            this.bidLabel = new System.Windows.Forms.Label();
             this.bidValue = new System.Windows.Forms.TextBox();
             this.closeLabel = new System.Windows.Forms.Label();
             this.openLabel = new System.Windows.Forms.Label();
-            this.bidLabel = new System.Windows.Forms.Label();
             this.askLabel = new System.Windows.Forms.Label();
-            this.askValue = new System.Windows.Forms.TextBox();
-            this.openValue = new System.Windows.Forms.TextBox();
-            this.closeValue = new System.Windows.Forms.TextBox();
-            this.topLine = new System.Windows.Forms.Label();
-            this.bottomLine = new System.Windows.Forms.Label();
+            this.Tabs = new System.Windows.Forms.TabControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.DI = new System.Windows.Forms.Label();
+            this.ADX = new System.Windows.Forms.Label();
+            this.diValue = new System.Windows.Forms.TextBox();
+            this.adxValue = new System.Windows.Forms.TextBox();
+            this.line3 = new System.Windows.Forms.Label();
+            this.calculateMath = new System.Windows.Forms.Button();
+            this.tickerline3 = new System.Windows.Forms.Label();
+            this.tickerValue1 = new System.Windows.Forms.TextBox();
+            this.tabPage1.SuspendLayout();
+            this.Tabs.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
-
-
-            /* -------------------- Data Fields ------------------------ */
-            // Get Data (Button)
-            this.getData.Location = new System.Drawing.Point(197, 36);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.tickerLabel);
+            this.tabPage1.Controls.Add(this.topLine);
+            this.tabPage1.Controls.Add(this.bottomLine);
+            this.tabPage1.Controls.Add(this.tickerValue);
+            this.tabPage1.Controls.Add(this.getData);
+            this.tabPage1.Controls.Add(this.closeValue);
+            this.tabPage1.Controls.Add(this.lastLabel);
+            this.tabPage1.Controls.Add(this.openValue);
+            this.tabPage1.Controls.Add(this.lastValue);
+            this.tabPage1.Controls.Add(this.askValue);
+            this.tabPage1.Controls.Add(this.bidLabel);
+            this.tabPage1.Controls.Add(this.bidValue);
+            this.tabPage1.Controls.Add(this.closeLabel);
+            this.tabPage1.Controls.Add(this.openLabel);
+            this.tabPage1.Controls.Add(this.askLabel);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(263, 234);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Data";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tickerLabel
+            // 
+            this.tickerLabel.AutoSize = true;
+            this.tickerLabel.Location = new System.Drawing.Point(26, 16);
+            this.tickerLabel.Name = "tickerLabel";
+            this.tickerLabel.Size = new System.Drawing.Size(37, 13);
+            this.tickerLabel.TabIndex = 4;
+            this.tickerLabel.Text = "Ticker";
+            // 
+            // topLine
+            // 
+            this.topLine.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.topLine.Location = new System.Drawing.Point(9, 43);
+            this.topLine.Name = "topLine";
+            this.topLine.Size = new System.Drawing.Size(250, 2);
+            this.topLine.TabIndex = 17;
+            // 
+            // bottomLine
+            // 
+            this.bottomLine.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.bottomLine.Location = new System.Drawing.Point(9, 194);
+            this.bottomLine.Name = "bottomLine";
+            this.bottomLine.Size = new System.Drawing.Size(250, 2);
+            this.bottomLine.TabIndex = 18;
+            // 
+            // tickerValue
+            // 
+            this.tickerValue.Location = new System.Drawing.Point(69, 13);
+            this.tickerValue.Name = "tickerValue";
+            this.tickerValue.Size = new System.Drawing.Size(100, 20);
+            this.tickerValue.TabIndex = 1;
+            this.tickerValue.Text = "SPY";
+            // 
+            // getData
+            // 
+            this.getData.Location = new System.Drawing.Point(176, 11);
             this.getData.Name = "getData";
             this.getData.Size = new System.Drawing.Size(75, 23);
             this.getData.TabIndex = 0;
             this.getData.Text = "Get Data";
             this.getData.UseVisualStyleBackColor = true;
             this.getData.Click += new System.EventHandler(this.OnConnectClicked);
-
-            // Ticker (Value)
-            this.tickerValue.Location = new System.Drawing.Point(82, 38);
-            this.tickerValue.Name = "SPY";
-            this.tickerValue.Size = new System.Drawing.Size(100, 20);
-            this.tickerValue.TabIndex = 1;
-            this.tickerValue.Text = "SPY";
-
-            // tickerValue (Label)
-            this.tickerLabel.AutoSize = true;
-            this.tickerLabel.Location = new System.Drawing.Point(21, 41);
-            this.tickerLabel.Name = "tickerLabel";
-            this.tickerLabel.Size = new System.Drawing.Size(37, 13);
-            this.tickerLabel.TabIndex = 4;
-            this.tickerLabel.Text = "Ticker";
-
-
-            // Last (Label)
+            // 
+            // closeValue
+            // 
+            this.closeValue.Location = new System.Drawing.Point(69, 160);
+            this.closeValue.Name = "closeValue";
+            this.closeValue.Size = new System.Drawing.Size(100, 20);
+            this.closeValue.TabIndex = 16;
+            // 
+            // lastLabel
+            // 
             this.lastLabel.AutoSize = true;
-            this.lastLabel.Location = new System.Drawing.Point(21, 91);
+            this.lastLabel.Location = new System.Drawing.Point(36, 57);
             this.lastLabel.Name = "lastLabel";
             this.lastLabel.Size = new System.Drawing.Size(27, 13);
             this.lastLabel.TabIndex = 7;
             this.lastLabel.Text = "Last";
-            
-
-            // Close (Label)
+            // 
+            // openValue
+            // 
+            this.openValue.Location = new System.Drawing.Point(69, 133);
+            this.openValue.Name = "openValue";
+            this.openValue.Size = new System.Drawing.Size(100, 20);
+            this.openValue.TabIndex = 15;
+            // 
+            // lastValue
+            // 
+            this.lastValue.Location = new System.Drawing.Point(69, 53);
+            this.lastValue.Name = "lastValue";
+            this.lastValue.Size = new System.Drawing.Size(100, 20);
+            this.lastValue.TabIndex = 3;
+            // 
+            // askValue
+            // 
+            this.askValue.Location = new System.Drawing.Point(69, 107);
+            this.askValue.Name = "askValue";
+            this.askValue.Size = new System.Drawing.Size(100, 20);
+            this.askValue.TabIndex = 14;
+            // 
+            // bidLabel
+            // 
+            this.bidLabel.AutoSize = true;
+            this.bidLabel.Location = new System.Drawing.Point(41, 81);
+            this.bidLabel.Name = "bidLabel";
+            this.bidLabel.Size = new System.Drawing.Size(22, 13);
+            this.bidLabel.TabIndex = 12;
+            this.bidLabel.Text = "Bid";
+            // 
+            // bidValue
+            // 
+            this.bidValue.Location = new System.Drawing.Point(69, 81);
+            this.bidValue.Name = "bidValue";
+            this.bidValue.Size = new System.Drawing.Size(100, 20);
+            this.bidValue.TabIndex = 8;
+            // 
+            // closeLabel
+            // 
             this.closeLabel.AutoSize = true;
-            this.closeLabel.Location = new System.Drawing.Point(21, 192);
+            this.closeLabel.Location = new System.Drawing.Point(7, 162);
             this.closeLabel.Name = "closeLabel";
             this.closeLabel.Size = new System.Drawing.Size(56, 13);
             this.closeLabel.TabIndex = 9;
             this.closeLabel.Text = "Last Close";
-
-
-            // Open (Label)
+            // 
+            // openLabel
+            // 
             this.openLabel.AutoSize = true;
-            this.openLabel.Location = new System.Drawing.Point(21, 165);
+            this.openLabel.Location = new System.Drawing.Point(28, 133);
             this.openLabel.Name = "openLabel";
             this.openLabel.Size = new System.Drawing.Size(33, 13);
             this.openLabel.TabIndex = 10;
             this.openLabel.Text = "Open";
-
-            // Bid (Label)
-            this.bidLabel.AutoSize = true;
-            this.bidLabel.Location = new System.Drawing.Point(22, 114);
-            this.bidLabel.Name = "bid";
-            this.bidLabel.Size = new System.Drawing.Size(22, 13);
-            this.bidLabel.TabIndex = 12;
-            this.bidLabel.Text = "Bid";
-
-            
-            // Ask (Label)
+            // 
+            // askLabel
+            // 
             this.askLabel.AutoSize = true;
-            this.askLabel.Location = new System.Drawing.Point(22, 139);
-            this.askLabel.Name = "ask";
+            this.askLabel.Location = new System.Drawing.Point(36, 107);
+            this.askLabel.Name = "askLabel";
             this.askLabel.Size = new System.Drawing.Size(25, 13);
             this.askLabel.TabIndex = 13;
             this.askLabel.Text = "Ask";
-
-
-            // Last (Value)
-            this.lastValue.Location = new System.Drawing.Point(83, 87);
-            this.lastValue.Name = "last";
-            this.lastValue.Size = new System.Drawing.Size(100, 20);
-            this.lastValue.TabIndex = 3;
-
-
-            // Bid (Value)
-            this.bidValue.Location = new System.Drawing.Point(83, 112);
-            this.bidValue.Name = "bid";
-            this.bidValue.Size = new System.Drawing.Size(100, 20);
-            this.bidValue.TabIndex = 8;
-
-
-            // Ask (Value)
-            this.askValue.Location = new System.Drawing.Point(83, 137);
-            this.askValue.Name = "ask";
-            this.askValue.Size = new System.Drawing.Size(100, 20);
-            this.askValue.TabIndex = 14;
-
-
-            // Open (Value)
-            this.openValue.Location = new System.Drawing.Point(83, 163);
-            this.openValue.Name = "open";
-            this.openValue.Size = new System.Drawing.Size(100, 20);
-            this.openValue.TabIndex = 15;
-
-            
-            // Close (Value)
-            this.closeValue.Location = new System.Drawing.Point(83, 189);
-            this.closeValue.Name = "close";
-            this.closeValue.Size = new System.Drawing.Size(100, 20);
-            this.closeValue.TabIndex = 16;
-
-
-            // line 1
-            this.topLine.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.topLine.Location = new System.Drawing.Point(17, 73);
-            this.topLine.Name = "topLine";
-            this.topLine.Size = new System.Drawing.Size(250, 2);
-            this.topLine.TabIndex = 17;
-
-
-            // line 2
-            this.bottomLine.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.bottomLine.Location = new System.Drawing.Point(23, 225);
-            this.bottomLine.Name = "bottomLine";
-            this.bottomLine.Size = new System.Drawing.Size(250, 2);
-            this.bottomLine.TabIndex = 18;
-
+            // 
+            // Tabs
+            // 
+            this.Tabs.Controls.Add(this.tabPage1);
+            this.Tabs.Controls.Add(this.tabPage2);
+            this.Tabs.Location = new System.Drawing.Point(1, 0);
+            this.Tabs.Name = "Tabs";
+            this.Tabs.SelectedIndex = 0;
+            this.Tabs.Size = new System.Drawing.Size(271, 260);
+            this.Tabs.TabIndex = 19;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.DI);
+            this.tabPage2.Controls.Add(this.ADX);
+            this.tabPage2.Controls.Add(this.diValue);
+            this.tabPage2.Controls.Add(this.adxValue);
+            this.tabPage2.Controls.Add(this.line3);
+            this.tabPage2.Controls.Add(this.calculateMath);
+            this.tabPage2.Controls.Add(this.tickerline3);
+            this.tabPage2.Controls.Add(this.tickerValue1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(263, 234);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Strategies";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // DI
+            // 
+            this.DI.AutoSize = true;
+            this.DI.Location = new System.Drawing.Point(19, 186);
+            this.DI.Name = "DI";
+            this.DI.Size = new System.Drawing.Size(18, 13);
+            this.DI.TabIndex = 23;
+            this.DI.Text = "DI";
+            // 
+            // ADX
+            // 
+            this.ADX.AutoSize = true;
+            this.ADX.Location = new System.Drawing.Point(19, 147);
+            this.ADX.Name = "ADX";
+            this.ADX.Size = new System.Drawing.Size(29, 13);
+            this.ADX.TabIndex = 22;
+            this.ADX.Text = "ADX";
+            // 
+            // diValue
+            // 
+            this.diValue.Location = new System.Drawing.Point(60, 184);
+            this.diValue.Name = "diValue";
+            this.diValue.Size = new System.Drawing.Size(100, 20);
+            this.diValue.TabIndex = 21;
+            // 
+            // adxValue
+            // 
+            this.adxValue.Location = new System.Drawing.Point(60, 144);
+            this.adxValue.Name = "adxValue";
+            this.adxValue.Size = new System.Drawing.Size(100, 20);
+            this.adxValue.TabIndex = 20;
+            // 
+            // line3
+            // 
+            this.line3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.line3.Location = new System.Drawing.Point(6, 116);
+            this.line3.Name = "line3";
+            this.line3.Size = new System.Drawing.Size(250, 2);
+            this.line3.TabIndex = 19;
+            // 
+            // calculateMath
+            // 
+            this.calculateMath.Location = new System.Drawing.Point(60, 70);
+            this.calculateMath.Name = "calculateMath";
+            this.calculateMath.Size = new System.Drawing.Size(75, 23);
+            this.calculateMath.TabIndex = 8;
+            this.calculateMath.Text = "Go";
+            this.calculateMath.UseVisualStyleBackColor = true;
+            this.calculateMath.Click += new System.EventHandler(this.OnConnectClicked);
+            // 
+            // tickerline3
+            // 
+            this.tickerline3.AutoSize = true;
+            this.tickerline3.Location = new System.Drawing.Point(17, 27);
+            this.tickerline3.Name = "tickerline3";
+            this.tickerline3.Size = new System.Drawing.Size(37, 13);
+            this.tickerline3.TabIndex = 7;
+            this.tickerline3.Text = "Ticker";
+            // 
+            // tickerValue1
+            // 
+            this.tickerValue1.Location = new System.Drawing.Point(60, 24);
+            this.tickerValue1.Name = "tickerValue1";
+            this.tickerValue1.Size = new System.Drawing.Size(100, 20);
+            this.tickerValue1.TabIndex = 6;
+            this.tickerValue1.Text = "SPY";
             // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.bottomLine);
-            this.Controls.Add(this.topLine);
-            this.Controls.Add(this.closeValue);
-            this.Controls.Add(this.openValue);
-            this.Controls.Add(this.askValue);
-            this.Controls.Add(this.askLabel);
-            this.Controls.Add(this.bidLabel);
-            this.Controls.Add(this.openLabel);
-            this.Controls.Add(this.closeLabel);
-            this.Controls.Add(this.bidValue);
-            this.Controls.Add(this.lastLabel);
-            this.Controls.Add(this.tickerLabel);
-            this.Controls.Add(this.lastValue);
-            this.Controls.Add(this.tickerValue);
-            this.Controls.Add(this.getData);
+            this.ClientSize = new System.Drawing.Size(270, 259);
+            this.Controls.Add(this.Tabs);
             this.Name = "UI";
             this.Text = "Think or Swim Client";
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.Tabs.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -203,14 +326,21 @@ namespace SampleGUI
         private void OnConnectClicked(object sender, EventArgs e)
         {
             //Create Client Instance
+            int heartbeat = 1;
             var tosClassId = new Guid(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Tos.RTD\CLSID", "", null).ToString());
-            var client = new RtdClient(tosClassId);
+            var client = new RtdClient(tosClassId, heartbeat);
 
-            this.updateData(client);
+            if (this.Tabs.SelectedTab.Name.ToString() == "tabPage1")
+            {
+                this.updateStocksData(client);
+            } else
+            {
+                this.updateStrategies(client);
+            }
         }
 
 
-        private void updateData(RtdClient client)
+        private void updateStocksData(RtdClient client)
         {
             
             // Array containing all textboxes
@@ -222,14 +352,47 @@ namespace SampleGUI
                 closeValue
             };
 
+            var typeFields = new[] {
+                "last",
+                "bid",
+                "ask",
+                "open",
+                "close"
+            };
+
 
             for (int i = 0 ; i < outputFields.Length; i++)
             {
-                var value = Client.getQuotes(client, outputFields[i].Name.ToString(), tickerValue.Text);
+                var value = Client.getQuotes(client, typeFields[i], tickerValue.Text);
                 outputFields[i].Text = value.ToString();
             } 
             
         }
+
+
+        private void updateStrategies(RtdClient client)
+        {
+
+            // Array containing all textboxes
+            var outputFields = new[] {
+                adxValue,
+                diValue
+            };
+
+            var typeFields = new[] {
+                "adx",
+                "di"
+            };
+
+
+            for (int i = 0; i < outputFields.Length; i++)
+            {
+               // var value = Client.getQuotes(client, typeFields[i], tickerValue.Text);
+                outputFields[i].Text ="fill";
+            }
+
+        }
+
 
 
         #endregion
@@ -249,6 +412,17 @@ namespace SampleGUI
         private TextBox closeValue;
         private Label topLine;
         private Label bottomLine;
+        private TabControl Tabs;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
+        private Label tickerline3;
+        private TextBox tickerValue1;
+        private Button calculateMath;
+        private Label DI;
+        private Label ADX;
+        private TextBox diValue;
+        private TextBox adxValue;
+        private Label line3;
     }
 }
 

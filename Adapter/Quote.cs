@@ -12,16 +12,19 @@ namespace Adapter
         bool GetValue(TimeSpan timeout, out object value, params object[] args);
     }
 
-    public class RtdClient : IRtdClient
+    public class RtdClient : IRTDUpdateEvent, IRtdClient
     {
 
         readonly Guid ServerId;
+        int Heartbeat;
         static readonly Dictionary<Guid, IRTDServer> servers = new Dictionary<Guid, IRTDServer>();
         static readonly Dictionary<Guid, int> topicIds = new Dictionary<Guid, int>();
 
-        public RtdClient(Guid serverId)
+
+        public RtdClient(Guid serverId, int heartbeat)
         {
             ServerId = serverId;
+            Heartbeat = heartbeat;
         }
 
         public bool GetValue(TimeSpan timeout, out object value, params object[] args)
@@ -70,6 +73,39 @@ namespace Adapter
             }
             return false;
         }
+
+
+        public void UpdateNotify()
+        {
+            var server = GetRtdServer();
+            var topicId = GetTopicId();
+            var refresh = server.RefreshData(1);
+            if (refresh.Length > 0)
+            {
+                for (int i = 0; i < refresh.Length / 2; i++)
+                {
+                    var id = (int)refresh[0, i];
+                    Debug.WriteLine("update...", i);
+                    //var data = this.topics.Get(id);
+                    //this.queue.Push(new Quote(
+                    //    data.Item1,
+                    //    data.Item2,
+                     //   double.Parse(refresh[1, i].ToString())));
+                }
+            }
+        }
+
+
+        public int HeartbeatInterval
+        {
+            get; set;
+        }
+
+        public void Disconnect()
+        {
+            //this.queue.Disconnect();
+        }
+
 
         IRTDServer GetRtdServer()
         {

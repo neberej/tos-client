@@ -3,6 +3,11 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using Microsoft.Win32;
 using Adapter;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Collections;
+using System.Linq;
 
 namespace SampleGUI
 {
@@ -32,6 +37,7 @@ namespace SampleGUI
         private void InitializeComponent()
         {
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.status = new System.Windows.Forms.TextBox();
             this.tickerLabel = new System.Windows.Forms.Label();
             this.topLine = new System.Windows.Forms.Label();
             this.bottomLine = new System.Windows.Forms.Label();
@@ -64,6 +70,7 @@ namespace SampleGUI
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.status);
             this.tabPage1.Controls.Add(this.tickerLabel);
             this.tabPage1.Controls.Add(this.topLine);
             this.tabPage1.Controls.Add(this.bottomLine);
@@ -86,6 +93,17 @@ namespace SampleGUI
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Data";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // status
+            // 
+            this.status.BackColor = System.Drawing.SystemColors.Window;
+            this.status.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.status.Location = new System.Drawing.Point(10, 208);
+            this.status.Name = "status";
+            this.status.ReadOnly = true;
+            this.status.Size = new System.Drawing.Size(100, 13);
+            this.status.TabIndex = 19;
+            this.status.Text = "Ready";
             // 
             // tickerLabel
             // 
@@ -325,34 +343,61 @@ namespace SampleGUI
 
         private void OnConnectClicked(object sender, EventArgs e)
         {
-            //Create Client Instance
-            int heartbeat = 1;
-            var tosClassId = new Guid(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Tos.RTD\CLSID", "", null).ToString());
-            var client = new RtdClient(tosClassId, heartbeat);
-
+            this.status.Text = "Connecting .....";
+            var defaultTab = "tabPage1";
             if (this.Tabs.SelectedTab.Name.ToString() == "tabPage1")
             {
-                this.updateStocksData(client);
-            } else
-            {
-                this.updateStrategies(client);
+                defaultTab = "tabPage2";
             }
+
+
+                // Will be run on background thread
+                BackgroundWorker worker = new BackgroundWorker();
+
+                
+                worker.DoWork += delegate (object s, DoWorkEventArgs args)
+                {
+                    //Create Client Instance
+                    int heartbeat = 1;
+                    var tosClassId = new Guid(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Tos.RTD\CLSID", "", null).ToString());
+                    var client = new RtdClient(tosClassId, heartbeat);
+
+                    args.Result = this.getStocksData(client);
+                    //if (this.Tabs.SelectedTab.Name.ToString() == "tabPage1")
+                    //{
+                    //    this.updateStocksData(client);
+                    //}
+                    //else
+                    //{
+                    //     this.updateStrategies(client);
+                    // }
+                };
+
+            worker.RunWorkerCompleted += delegate (object s, RunWorkerCompletedEventArgs args)
+            {
+                Object result = args.Result;
+                string[] arr = ((IEnumerable)result).Cast<object>()
+                                 .Select(x => x.ToString())
+                                 .ToArray();
+                this.updateStocksData(arr);
+                this.status.Text = "Ready";
+            };
+
+            worker.RunWorkerAsync();
+
+
+
+
+           
         }
 
 
-        private void updateStocksData(RtdClient client)
+        private object getStocksData(RtdClient client)
         {
             
-            // Array containing all textboxes
-            var outputFields = new[] {
-                lastValue,
-                bidValue,
-                askValue,
-                openValue,
-                closeValue
-            };
+            int count = 5;
 
-            var typeFields = new[] {
+            var types = new[] {
                 "last",
                 "bid",
                 "ask",
@@ -361,16 +406,43 @@ namespace SampleGUI
             };
 
 
-            for (int i = 0 ; i < outputFields.Length; i++)
+            // String[] output = new String[5];
+
+            String[]quotes = new String[count];
+
+            for (int i = 0 ; i < types.Length; i++)
             {
-                var value = Client.getQuotes(client, typeFields[i], tickerValue.Text);
-                outputFields[i].Text = value.ToString();
-            } 
+                var value = Client.getQuotes(client, types[i], tickerValue.Text);
+                quotes[i] = value.ToString();
+            }
+            
+
+            return quotes;
             
         }
 
 
-        private void updateStrategies(RtdClient client)
+        private void updateStocksData(String []quotes)
+        {
+            // Array containing all textboxes
+            var outputFields = new[] {
+                lastValue,
+                bidValue,
+                askValue,
+                openValue,
+                closeValue
+            };
+            
+            for (var i = 0; i < outputFields.Length; i++)
+            {
+                outputFields[i].Text = quotes[i];
+            }
+
+        }
+
+
+
+            private void updateStrategies(RtdClient client)
         {
 
             // Array containing all textboxes
@@ -423,6 +495,7 @@ namespace SampleGUI
         private TextBox diValue;
         private TextBox adxValue;
         private Label line3;
+        private TextBox status;
     }
 }
 

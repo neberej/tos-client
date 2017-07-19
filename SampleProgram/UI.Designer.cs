@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Diagnostics;
 using Microsoft.Win32;
 using Adapter;
 using System.ComponentModel;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Collections;
 using System.Linq;
 
 namespace SampleGUI
 {
-
-
+    
     partial class UI
     {
-
-
+        
         /// Required designer variable.
         private System.ComponentModel.IContainer components = null;
-        
+
 
         /// Clean up any resources being used.
         protected override void Dispose(bool disposing)
@@ -98,10 +93,11 @@ namespace SampleGUI
             // 
             this.status.BackColor = System.Drawing.SystemColors.Window;
             this.status.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.status.Location = new System.Drawing.Point(10, 208);
+            this.status.Location = new System.Drawing.Point(10, 200);
+            this.status.Multiline = true;
             this.status.Name = "status";
             this.status.ReadOnly = true;
-            this.status.Size = new System.Drawing.Size(100, 13);
+            this.status.Size = new System.Drawing.Size(241, 26);
             this.status.TabIndex = 19;
             this.status.Text = "Ready";
             // 
@@ -343,35 +339,37 @@ namespace SampleGUI
 
         private void OnConnectClicked(object sender, EventArgs e)
         {
-            this.status.Text = "Connecting .....";
-            var defaultTab = "tabPage1";
-            if (this.Tabs.SelectedTab.Name.ToString() == "tabPage1")
+
+            // Start timer
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            this.status.Text = "Getting Data .....";
+
+            // Will be run on background thread
+            BackgroundWorker worker = new BackgroundWorker();
+
+            // Hold current tab name
+            var currentTab = "tab1";
+            if (this.Tabs.SelectedTab.Name.ToString() == "tabPage2")
             {
-                defaultTab = "tabPage2";
+                currentTab = "Tab2";
             }
 
+            worker.DoWork += delegate (object s, DoWorkEventArgs args)
+            {
+                //Create Client Instance
+                int heartbeat = 1;
+                var tosClassId = new Guid(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Tos.RTD\CLSID", "", null).ToString());
+                var client = new RtdClient(tosClassId, heartbeat);
 
-                // Will be run on background thread
-                BackgroundWorker worker = new BackgroundWorker();
-
-                
-                worker.DoWork += delegate (object s, DoWorkEventArgs args)
+                if (currentTab == "tab1")
                 {
-                    //Create Client Instance
-                    int heartbeat = 1;
-                    var tosClassId = new Guid(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Tos.RTD\CLSID", "", null).ToString());
-                    var client = new RtdClient(tosClassId, heartbeat);
-
                     args.Result = this.getStocksData(client);
-                    //if (this.Tabs.SelectedTab.Name.ToString() == "tabPage1")
-                    //{
-                    //    this.updateStocksData(client);
-                    //}
-                    //else
-                    //{
-                    //     this.updateStrategies(client);
-                    // }
-                };
+                }
+                else
+                {
+                    args.Result = this.getStrategies(client);
+                }
+            };
 
             worker.RunWorkerCompleted += delegate (object s, RunWorkerCompletedEventArgs args)
             {
@@ -379,24 +377,23 @@ namespace SampleGUI
                 string[] arr = ((IEnumerable)result).Cast<object>()
                                  .Select(x => x.ToString())
                                  .ToArray();
-                this.updateStocksData(arr);
-                this.status.Text = "Ready";
+                watch.Stop();
+                var elapsedMs = watch.Elapsed.TotalSeconds;
+                this.displayData(arr);
+
+                //Show elasped time on status bar
+                this.status.Text = "\n Done ..... Took " + elapsedMs.ToString("F") + "s";
             };
 
             worker.RunWorkerAsync();
 
-
-
-
-           
         }
 
 
         private object getStocksData(RtdClient client)
         {
-            
-            int count = 5;
 
+            int count = 5;
             var types = new[] {
                 "last",
                 "bid",
@@ -405,24 +402,18 @@ namespace SampleGUI
                 "close"
             };
 
-
-            // String[] output = new String[5];
-
-            String[]quotes = new String[count];
-
-            for (int i = 0 ; i < types.Length; i++)
+            String[] quotes = new String[count];
+            for (int i = 0; i < count; i++)
             {
                 var value = Client.getQuotes(client, types[i], tickerValue.Text);
                 quotes[i] = value.ToString();
             }
             
-
             return quotes;
-            
         }
 
 
-        private void updateStocksData(String []quotes)
+        private void displayData(String[] quotes)
         {
             // Array containing all textboxes
             var outputFields = new[] {
@@ -432,7 +423,7 @@ namespace SampleGUI
                 openValue,
                 closeValue
             };
-            
+
             for (var i = 0; i < outputFields.Length; i++)
             {
                 outputFields[i].Text = quotes[i];
@@ -442,27 +433,45 @@ namespace SampleGUI
 
 
 
-            private void updateStrategies(RtdClient client)
+        private object getStrategies(RtdClient client)
         {
 
             // Array containing all textboxes
-            var outputFields = new[] {
-                adxValue,
-                diValue
-            };
+            //var outputFields = new[] {
+            //    adxValue,
+            //    diValue
+            //};
 
-            var typeFields = new[] {
+            //var typeFields = new[] {
+            //    "adx",
+            //    "di"
+            //};
+
+
+            //for (int i = 0; i < outputFields.Length; i++)
+            //{
+            // var value = Client.getQuotes(client, typeFields[i], tickerValue.Text);
+            //    outputFields[i].Text ="fill";
+            //}
+
+
+            int count = 2;
+
+            var types = new[] {
                 "adx",
                 "di"
             };
 
+            String[] quotes = new String[count];
 
-            for (int i = 0; i < outputFields.Length; i++)
+            for (int i = 0; i < count; i++)
             {
-               // var value = Client.getQuotes(client, typeFields[i], tickerValue.Text);
-                outputFields[i].Text ="fill";
+                //var value = Client.getQuotes(client, types[i], tickerValue.Text);
+                quotes[i] = "77878";
             }
-
+            
+            return quotes;
+        
         }
 
 

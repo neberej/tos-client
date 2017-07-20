@@ -5,6 +5,9 @@ using Adapter;
 using System.ComponentModel;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Threading;
 
 namespace SampleGUI
 {
@@ -50,14 +53,14 @@ namespace SampleGUI
             this.askLabel = new System.Windows.Forms.Label();
             this.Tabs = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.DI = new System.Windows.Forms.Label();
-            this.ADX = new System.Windows.Forms.Label();
+            this.diLabel = new System.Windows.Forms.Label();
+            this.adxLabel = new System.Windows.Forms.Label();
             this.diValue = new System.Windows.Forms.TextBox();
-            this.adxValue = new System.Windows.Forms.TextBox();
             this.line3 = new System.Windows.Forms.Label();
             this.calculateMath = new System.Windows.Forms.Button();
             this.tickerline3 = new System.Windows.Forms.Label();
             this.tickerValue1 = new System.Windows.Forms.TextBox();
+            this.adxValue = new System.Windows.Forms.TextBox();
             this.tabPage1.SuspendLayout();
             this.Tabs.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -142,7 +145,7 @@ namespace SampleGUI
             this.getData.TabIndex = 0;
             this.getData.Text = "Get Data";
             this.getData.UseVisualStyleBackColor = true;
-            this.getData.Click += new System.EventHandler(this.OnConnectClicked);
+            this.getData.Click += new System.EventHandler(this.OnGetDataClicked);
             // 
             // closeValue
             // 
@@ -150,6 +153,7 @@ namespace SampleGUI
             this.closeValue.Name = "closeValue";
             this.closeValue.Size = new System.Drawing.Size(100, 20);
             this.closeValue.TabIndex = 16;
+            this.closeValue.Tag = "close";
             // 
             // lastLabel
             // 
@@ -166,6 +170,7 @@ namespace SampleGUI
             this.openValue.Name = "openValue";
             this.openValue.Size = new System.Drawing.Size(100, 20);
             this.openValue.TabIndex = 15;
+            this.openValue.Tag = "open";
             // 
             // lastValue
             // 
@@ -173,6 +178,7 @@ namespace SampleGUI
             this.lastValue.Name = "lastValue";
             this.lastValue.Size = new System.Drawing.Size(100, 20);
             this.lastValue.TabIndex = 3;
+            this.lastValue.Tag = "last";
             // 
             // askValue
             // 
@@ -180,6 +186,7 @@ namespace SampleGUI
             this.askValue.Name = "askValue";
             this.askValue.Size = new System.Drawing.Size(100, 20);
             this.askValue.TabIndex = 14;
+            this.askValue.Tag = "ask";
             // 
             // bidLabel
             // 
@@ -196,6 +203,7 @@ namespace SampleGUI
             this.bidValue.Name = "bidValue";
             this.bidValue.Size = new System.Drawing.Size(100, 20);
             this.bidValue.TabIndex = 8;
+            this.bidValue.Tag = "bid";
             // 
             // closeLabel
             // 
@@ -236,10 +244,10 @@ namespace SampleGUI
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.DI);
-            this.tabPage2.Controls.Add(this.ADX);
-            this.tabPage2.Controls.Add(this.diValue);
             this.tabPage2.Controls.Add(this.adxValue);
+            this.tabPage2.Controls.Add(this.diLabel);
+            this.tabPage2.Controls.Add(this.diValue);
+            this.tabPage2.Controls.Add(this.adxLabel);
             this.tabPage2.Controls.Add(this.line3);
             this.tabPage2.Controls.Add(this.calculateMath);
             this.tabPage2.Controls.Add(this.tickerline3);
@@ -252,23 +260,22 @@ namespace SampleGUI
             this.tabPage2.Text = "Strategies";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // DI
+            // diLabel
             // 
-            this.DI.AutoSize = true;
-            this.DI.Location = new System.Drawing.Point(19, 186);
-            this.DI.Name = "DI";
-            this.DI.Size = new System.Drawing.Size(18, 13);
-            this.DI.TabIndex = 23;
-            this.DI.Text = "DI";
+            this.diLabel.AutoSize = true;
+            this.diLabel.Location = new System.Drawing.Point(19, 186);
+            this.diLabel.Name = "diLabel";
+            this.diLabel.Size = new System.Drawing.Size(18, 13);
+            this.diLabel.TabIndex = 23;
+            this.diLabel.Text = "DI";
             // 
-            // ADX
+            // adxLabel
             // 
-            this.ADX.AutoSize = true;
-            this.ADX.Location = new System.Drawing.Point(19, 147);
-            this.ADX.Name = "ADX";
-            this.ADX.Size = new System.Drawing.Size(29, 13);
-            this.ADX.TabIndex = 22;
-            this.ADX.Text = "ADX";
+            this.adxLabel.Location = new System.Drawing.Point(19, 147);
+            this.adxLabel.Name = "adxLabel";
+            this.adxLabel.Size = new System.Drawing.Size(29, 13);
+            this.adxLabel.TabIndex = 22;
+            this.adxLabel.Text = "ADX";
             // 
             // diValue
             // 
@@ -276,13 +283,6 @@ namespace SampleGUI
             this.diValue.Name = "diValue";
             this.diValue.Size = new System.Drawing.Size(100, 20);
             this.diValue.TabIndex = 21;
-            // 
-            // adxValue
-            // 
-            this.adxValue.Location = new System.Drawing.Point(60, 144);
-            this.adxValue.Name = "adxValue";
-            this.adxValue.Size = new System.Drawing.Size(100, 20);
-            this.adxValue.TabIndex = 20;
             // 
             // line3
             // 
@@ -300,7 +300,7 @@ namespace SampleGUI
             this.calculateMath.TabIndex = 8;
             this.calculateMath.Text = "Go";
             this.calculateMath.UseVisualStyleBackColor = true;
-            this.calculateMath.Click += new System.EventHandler(this.OnConnectClicked);
+            this.calculateMath.Click += new System.EventHandler(this.OnGetMathClicked);
             // 
             // tickerline3
             // 
@@ -318,6 +318,13 @@ namespace SampleGUI
             this.tickerValue1.Size = new System.Drawing.Size(100, 20);
             this.tickerValue1.TabIndex = 6;
             this.tickerValue1.Text = "SPY";
+            // 
+            // adxValue
+            // 
+            this.adxValue.Location = new System.Drawing.Point(60, 140);
+            this.adxValue.Name = "adxV";
+            this.adxValue.Size = new System.Drawing.Size(100, 20);
+            this.adxValue.TabIndex = 24;
             // 
             // UI
             // 
@@ -337,85 +344,9 @@ namespace SampleGUI
         }
 
 
-        private void OnConnectClicked(object sender, EventArgs e)
+        private void OnGetDataClicked(object sender, EventArgs e)
         {
-
-            // Start timer
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            this.status.Text = "Getting Data .....";
-
-            // Will be run on background thread
-            BackgroundWorker worker = new BackgroundWorker();
-
-            // Hold current tab name
-            var currentTab = "tab1";
-            if (this.Tabs.SelectedTab.Name.ToString() == "tabPage2")
-            {
-                currentTab = "Tab2";
-            }
-
-            worker.DoWork += delegate (object s, DoWorkEventArgs args)
-            {
-                //Create Client Instance
-                int heartbeat = 1;
-                var tosClassId = new Guid(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Tos.RTD\CLSID", "", null).ToString());
-                var client = new RtdClient(tosClassId, heartbeat);
-
-                if (currentTab == "tab1")
-                {
-                    args.Result = this.getStocksData(client);
-                }
-                else
-                {
-                    args.Result = this.getStrategies(client);
-                }
-            };
-
-            worker.RunWorkerCompleted += delegate (object s, RunWorkerCompletedEventArgs args)
-            {
-                Object result = args.Result;
-                string[] arr = ((IEnumerable)result).Cast<object>()
-                                 .Select(x => x.ToString())
-                                 .ToArray();
-                watch.Stop();
-                var elapsedMs = watch.Elapsed.TotalSeconds;
-                this.displayData(arr);
-
-                //Show elasped time on status bar
-                this.status.Text = "\n Done ..... Took " + elapsedMs.ToString("F") + "s";
-            };
-
-            worker.RunWorkerAsync();
-
-        }
-
-
-        private object getStocksData(RtdClient client)
-        {
-
-            int count = 5;
-            var types = new[] {
-                "last",
-                "bid",
-                "ask",
-                "open",
-                "close"
-            };
-
-            String[] quotes = new String[count];
-            for (int i = 0; i < count; i++)
-            {
-                var value = Client.getQuotes(client, types[i], tickerValue.Text);
-                quotes[i] = value.ToString();
-            }
             
-            return quotes;
-        }
-
-
-        private void displayData(String[] quotes)
-        {
-            // Array containing all textboxes
             var outputFields = new[] {
                 lastValue,
                 bidValue,
@@ -424,55 +355,59 @@ namespace SampleGUI
                 closeValue
             };
 
-            for (var i = 0; i < outputFields.Length; i++)
+            String[] quotes = new String[outputFields.Length];
+
+            /* Storing types on textbox's tag attribute */
+            for (int i = 0; i < 5; i++)
             {
-                outputFields[i].Text = quotes[i];
-            }
-
-        }
-
-
-
-        private object getStrategies(RtdClient client)
-        {
-
-            // Array containing all textboxes
-            //var outputFields = new[] {
-            //    adxValue,
-            //    diValue
-            //};
-
-            //var typeFields = new[] {
-            //    "adx",
-            //    "di"
-            //};
-
-
-            //for (int i = 0; i < outputFields.Length; i++)
-            //{
-            // var value = Client.getQuotes(client, typeFields[i], tickerValue.Text);
-            //    outputFields[i].Text ="fill";
-            //}
-
-
-            int count = 2;
-
-            var types = new[] {
-                "adx",
-                "di"
-            };
-
-            String[] quotes = new String[count];
-
-            for (int i = 0; i < count; i++)
-            {
-                //var value = Client.getQuotes(client, types[i], tickerValue.Text);
-                quotes[i] = "77878";
+                this.displayData(outputFields[i], this.GetQuotesData(outputFields[i].Tag.ToString(), tickerValue.Text));
             }
             
-            return quotes;
-        
         }
+
+        private void OnGetMathClicked(object sender, EventArgs e)
+        {
+
+            var outputFields = new[] {
+                 adxValue,
+                 diValue
+            };
+            
+            String[] quotes = new String[outputFields.Length];
+
+            /* Storing types on textbox's tag attribute */
+            for (int i = 0; i < 2; i++)
+            {
+                this.displayData(outputFields[i], "Doing");
+            }
+
+        }
+
+        
+
+
+
+        private String GetQuotesData(String type, String ticker)
+        {
+           
+            int heartbeat = 1;
+            var tosClassId = new Guid(Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Tos.RTD\CLSID", "", null).ToString());
+            var client = new RtdClient(tosClassId, heartbeat);
+            
+            // Get quotes (RTD Server)
+            var value = Client.getQuotes(client, type, ticker);
+            
+            this.status.Text = "Done";
+            return value.ToString();
+        }
+
+        private void displayData(TextBox textfield, String value)
+        {
+            
+            textfield.Text = value;
+  
+        }
+
 
 
 
@@ -499,8 +434,8 @@ namespace SampleGUI
         private Label tickerline3;
         private TextBox tickerValue1;
         private Button calculateMath;
-        private Label DI;
-        private Label ADX;
+        private Label diLabel;
+        private Label adxLabel;
         private TextBox diValue;
         private TextBox adxValue;
         private Label line3;

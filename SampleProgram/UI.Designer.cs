@@ -53,14 +53,12 @@ namespace SampleGUI
             this.askLabel = new System.Windows.Forms.Label();
             this.Tabs = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.diLabel = new System.Windows.Forms.Label();
-            this.adxLabel = new System.Windows.Forms.Label();
-            this.diValue = new System.Windows.Forms.TextBox();
+            this.plValue = new System.Windows.Forms.TextBox();
+            this.plLabel = new System.Windows.Forms.Label();
             this.line3 = new System.Windows.Forms.Label();
             this.calculateMath = new System.Windows.Forms.Button();
             this.tickerline3 = new System.Windows.Forms.Label();
             this.tickerValue1 = new System.Windows.Forms.TextBox();
-            this.adxValue = new System.Windows.Forms.TextBox();
             this.tabPage1.SuspendLayout();
             this.Tabs.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -244,10 +242,8 @@ namespace SampleGUI
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.adxValue);
-            this.tabPage2.Controls.Add(this.diLabel);
-            this.tabPage2.Controls.Add(this.diValue);
-            this.tabPage2.Controls.Add(this.adxLabel);
+            this.tabPage2.Controls.Add(this.plValue);
+            this.tabPage2.Controls.Add(this.plLabel);
             this.tabPage2.Controls.Add(this.line3);
             this.tabPage2.Controls.Add(this.calculateMath);
             this.tabPage2.Controls.Add(this.tickerline3);
@@ -257,32 +253,24 @@ namespace SampleGUI
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(263, 234);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Strategies";
+            this.tabPage2.Text = "Portfolio";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // diLabel
+            // plValue
             // 
-            this.diLabel.AutoSize = true;
-            this.diLabel.Location = new System.Drawing.Point(19, 186);
-            this.diLabel.Name = "diLabel";
-            this.diLabel.Size = new System.Drawing.Size(18, 13);
-            this.diLabel.TabIndex = 23;
-            this.diLabel.Text = "DI";
+            this.plValue.Location = new System.Drawing.Point(95, 158);
+            this.plValue.Name = "plValue";
+            this.plValue.Size = new System.Drawing.Size(100, 20);
+            this.plValue.TabIndex = 24;
+            this.plValue.Tag = "P_L_YTD";
             // 
-            // adxLabel
+            // plLabel
             // 
-            this.adxLabel.Location = new System.Drawing.Point(19, 147);
-            this.adxLabel.Name = "adxLabel";
-            this.adxLabel.Size = new System.Drawing.Size(29, 13);
-            this.adxLabel.TabIndex = 22;
-            this.adxLabel.Text = "ADX";
-            // 
-            // diValue
-            // 
-            this.diValue.Location = new System.Drawing.Point(60, 184);
-            this.diValue.Name = "diValue";
-            this.diValue.Size = new System.Drawing.Size(100, 20);
-            this.diValue.TabIndex = 21;
+            this.plLabel.Location = new System.Drawing.Point(7, 161);
+            this.plLabel.Name = "plLabel";
+            this.plLabel.Size = new System.Drawing.Size(82, 20);
+            this.plLabel.TabIndex = 22;
+            this.plLabel.Text = "P/L YTD";
             // 
             // line3
             // 
@@ -294,13 +282,13 @@ namespace SampleGUI
             // 
             // calculateMath
             // 
-            this.calculateMath.Location = new System.Drawing.Point(60, 70);
+            this.calculateMath.Location = new System.Drawing.Point(95, 55);
             this.calculateMath.Name = "calculateMath";
             this.calculateMath.Size = new System.Drawing.Size(75, 23);
             this.calculateMath.TabIndex = 8;
             this.calculateMath.Text = "Go";
             this.calculateMath.UseVisualStyleBackColor = true;
-            this.calculateMath.Click += new System.EventHandler(this.OnGetMathClicked);
+            this.calculateMath.Click += new System.EventHandler(this.OnPLClicked);
             // 
             // tickerline3
             // 
@@ -313,18 +301,11 @@ namespace SampleGUI
             // 
             // tickerValue1
             // 
-            this.tickerValue1.Location = new System.Drawing.Point(60, 24);
+            this.tickerValue1.Location = new System.Drawing.Point(95, 24);
             this.tickerValue1.Name = "tickerValue1";
-            this.tickerValue1.Size = new System.Drawing.Size(100, 20);
+            this.tickerValue1.Size = new System.Drawing.Size(75, 20);
             this.tickerValue1.TabIndex = 6;
             this.tickerValue1.Text = "SPY";
-            // 
-            // adxValue
-            // 
-            this.adxValue.Location = new System.Drawing.Point(60, 140);
-            this.adxValue.Name = "adxV";
-            this.adxValue.Size = new System.Drawing.Size(100, 20);
-            this.adxValue.TabIndex = 24;
             // 
             // UI
             // 
@@ -365,21 +346,10 @@ namespace SampleGUI
             
         }
 
-        private void OnGetMathClicked(object sender, EventArgs e)
+        private void OnPLClicked(object sender, EventArgs e)
         {
 
-            var outputFields = new[] {
-                 adxValue,
-                 diValue
-            };
-            
-            String[] quotes = new String[outputFields.Length];
-
-            /* Storing types on textbox's tag attribute */
-            for (int i = 0; i < 2; i++)
-            {
-                this.displayData(outputFields[i], "Doing");
-            }
+            this.displayData(plValue, this.GetQuotesData(plValue.Tag.ToString(), tickerValue1.Text));
 
         }
 
@@ -398,7 +368,8 @@ namespace SampleGUI
             var value = Client.getQuotes(client, type, ticker);
             
             this.status.Text = "Done";
-            return value.ToString();
+
+            return value.ToString();
         }
 
         private void displayData(TextBox textfield, String value)
@@ -434,10 +405,8 @@ namespace SampleGUI
         private Label tickerline3;
         private TextBox tickerValue1;
         private Button calculateMath;
-        private Label diLabel;
-        private Label adxLabel;
-        private TextBox diValue;
-        private TextBox adxValue;
+        private Label plLabel;
+        private TextBox plValue;
         private Label line3;
         private TextBox status;
     }

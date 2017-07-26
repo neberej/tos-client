@@ -59,9 +59,16 @@ namespace SampleGUI
             this.calculateMath = new System.Windows.Forms.Button();
             this.tickerline3 = new System.Windows.Forms.Label();
             this.tickerValue1 = new System.Windows.Forms.TextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.startStreaming = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tickerValue2 = new System.Windows.Forms.TextBox();
+            this.streamValue = new System.Windows.Forms.RichTextBox();
             this.tabPage1.SuspendLayout();
             this.Tabs.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage1
@@ -234,6 +241,7 @@ namespace SampleGUI
             // 
             this.Tabs.Controls.Add(this.tabPage1);
             this.Tabs.Controls.Add(this.tabPage2);
+            this.Tabs.Controls.Add(this.tabPage3);
             this.Tabs.Location = new System.Drawing.Point(1, 0);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
@@ -307,6 +315,64 @@ namespace SampleGUI
             this.tickerValue1.TabIndex = 6;
             this.tickerValue1.Text = "SPY";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.streamValue);
+            this.tabPage3.Controls.Add(this.label2);
+            this.tabPage3.Controls.Add(this.startStreaming);
+            this.tabPage3.Controls.Add(this.label1);
+            this.tabPage3.Controls.Add(this.tickerValue2);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(263, 234);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Stream";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.Location = new System.Drawing.Point(6, 49);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(250, 2);
+            this.label2.TabIndex = 20;
+            // 
+            // startStreaming
+            // 
+            this.startStreaming.Location = new System.Drawing.Point(152, 9);
+            this.startStreaming.Name = "startStreaming";
+            this.startStreaming.Size = new System.Drawing.Size(100, 23);
+            this.startStreaming.TabIndex = 11;
+            this.startStreaming.Text = "Start Streaming";
+            this.startStreaming.UseVisualStyleBackColor = true;
+            this.startStreaming.Click += new System.EventHandler(this.OnstartStreamingClicked);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Ticker";
+            // 
+            // tickerValue2
+            // 
+            this.tickerValue2.Location = new System.Drawing.Point(61, 11);
+            this.tickerValue2.Name = "tickerValue2";
+            this.tickerValue2.Size = new System.Drawing.Size(75, 20);
+            this.tickerValue2.TabIndex = 9;
+            this.tickerValue2.Text = "/ES";
+            // 
+            // streamValue
+            // 
+            this.streamValue.Location = new System.Drawing.Point(16, 63);
+            this.streamValue.Name = "streamValue";
+            this.streamValue.Size = new System.Drawing.Size(236, 162);
+            this.streamValue.TabIndex = 22;
+            this.streamValue.Text = "";
+            // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -320,6 +386,8 @@ namespace SampleGUI
             this.Tabs.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -353,8 +421,15 @@ namespace SampleGUI
 
         }
 
-        
+        private void OnstartStreamingClicked(object sender, EventArgs e)
+        {
+            var quoteType = "Last";
+            var quote = this.GetQuotesData(quoteType, tickerValue1.Text);
+            streamValue.Text += quoteType + " : " + quote + Environment.NewLine;
 
+        }
+
+        
 
 
         private String GetQuotesData(String type, String ticker)
@@ -409,6 +484,12 @@ namespace SampleGUI
         private TextBox plValue;
         private Label line3;
         private TextBox status;
+        private TabPage tabPage3;
+        private Label label2;
+        private Button startStreaming;
+        private Label label1;
+        private TextBox tickerValue2;
+        private RichTextBox streamValue;
     }
 }
 

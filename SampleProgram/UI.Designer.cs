@@ -363,7 +363,7 @@ namespace SampleGUI
             this.tickerValue2.Name = "tickerValue2";
             this.tickerValue2.Size = new System.Drawing.Size(75, 20);
             this.tickerValue2.TabIndex = 9;
-            this.tickerValue2.Text = "/ES";
+            this.tickerValue2.Text = "/CL";
             // 
             // streamValue
             // 
@@ -423,8 +423,8 @@ namespace SampleGUI
 
         private void OnstartStreamingClicked(object sender, EventArgs e)
         {
-            var quoteType = "Last";
-            var quote = this.GetQuotesData(quoteType, tickerValue1.Text);
+            var quoteType = "BID";
+            var quote = this.GetQuotesData(quoteType, tickerValue2.Text);
             streamValue.Text += quoteType + " : " + quote + Environment.NewLine;
 
         }
